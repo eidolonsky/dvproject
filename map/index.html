@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>O.Globe</title>
+  <script src="/assets/js/d3.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+</head>
+<body>
+  <script>
+  var width = 600,
+      height = 500,
+      sens = 0.25,
+      focused;
+
+  //Projection
+  var projection = d3.geo.orthographic()
+                     .scale(245)
+                     .rotate([0, 0])
+                     .translate([width/2, height/2])
+                     .clipAngle(90);
+
+  var path = d3.geo.path()
+               .projection(projection);
+
+  </script>
+</body>
+</html>
