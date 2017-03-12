@@ -1,5 +1,5 @@
 function geoGlobe(pointColor, csvGeo) {
-  //follow http://jsfiddle.net/b12ryhda/
+  //Inspired by https://habrahabr.ru/post/186532/
   var width = 500;
   var height = 500;
   var scrollSpeed = 50;
