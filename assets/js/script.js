@@ -97,24 +97,59 @@ function geoGlobe(pointColor, csvGeo) {
     })
   })
 }
+
 function timeSeries(csvTime) {
   //svg
-  var svg = d3.select("svg"),
-      margin = {top: 20, right: 80, bottom: 30, left: 50},
-      width = svg.attr("width") - margin.left - margin.right,
-      height = svg.attr("height") - margin.top - margin.bottom,
-      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var w = 960, h = 500,
+      svg = d3.selectAll("body")
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h),
+      margin = {top: 20, right: 20, bottom: 100, left: 40},
+      width = w - margin.left - margin.right,
+      height = h - margin.top - margin.bottom;
+
+  var margin2 = {top: 420, tight: 20, bottom: 20, left: 40},
+      height2 = h - margin2.top - margin2.bottom;
+
   //parse time
   var parseTime = d3.timeParse("%H:%M");
+
   //scale
   var x = d3.scaleTime().range([0, width]),
       y = d3.scaleLinear().range([height, 0]),
       z = d3.scaleOrdinal(d3.schemeCategory10);
+
+  //brush scale
+  var x2 = d3.scaleTime().range([0, width]),
+      y2 = d3.scaleTime().range([height2, 0]);  
+
   //line
   var line = d3.line()
       .curve(d3.curveBasis)
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.sum); });
+
+  var line2 = d3.line()
+      .curve(d3.curveBasis)
+      .x(function(d) { return x2(d.date); })
+      .y(function(d) { return y2(d.sum); });
+
+
+
+  svg.append("defs")
+     .append("clipPath")
+     .attr("id", "clip")
+     .append("rect")
+     .attr("width", width)
+     .attr("height", height);
+ 
+  var focus = svg.append("g")
+                 .attr("class", "focus")
+                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var context = svg.append("g")
+                  .attr("class", "context")
+                  .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
   //get csv data
   d3.csv(csvTime, type, function(error, data) {
     if (error) throw error;
@@ -127,32 +162,51 @@ function timeSeries(csvTime) {
         })
       };
     });
+
     //domain
     x.domain(d3.extent(data, function(d) { return d.date; }));
-
+    x2.domain(x.domain());
     y.domain([
       d3.min(names, function(c) { return d3.min(c.values, function(d) { return d.sum; }); }),
       d3.max(names, function(c) { return d3.max(c.values, function(d) { return d.sum; }); })
     ]);
-
+    y2.domain(y.domain());
     z.domain(names.map(function(c) { return c.id; }));
-    //axis
-    g.append("g")
+
+    //axes
+    var xAxis = d3.axisBottom(x),
+        xAxis2 = d3.axisBottom(x2),
+        yAxis = d3.axisLeft(y);
+ 
+    //brush
+    var brush = d3.brushX()
+                  .extent([[0,0], [width, height2]])
+                  .on("brush end", brushed);
+
+    //zoom
+    var zoom = d3.zoom()
+                 .scaleExtent([1, Infinity])
+                 .translateExtent([[0, 0], [width, height]])
+                 .extent([[0, 0], [width, height]])
+                 .on("zoom", zoomed);    
+
+
+    focus.append("g")
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(xAxis);
 
-    g.append("g")
+    focus.append("g")
         .attr("class", "axis axis--y")
-        .call(d3.axisLeft(y))
+        .call(yAxis)
       .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
         .attr("fill", "#000")
-        .text("sum, ºF");
+        .text("Mentioned in Tweets");
 
-    var name = g.selectAll(".name")
+    var name = focus.selectAll(".name")
       .data(names)
       .enter().append("g")
         .attr("class", "name");
@@ -169,6 +223,60 @@ function timeSeries(csvTime) {
         .attr("dy", "0.35em")
         .style("font", "10px sans-serif")
         .text(function(d) { return d.id; });
+
+    context.append("g")
+           .attr("class", "axis axis--x")
+           .attr("transform", "translate(0," + height2 + ")")
+           .call(xAxis2);
+
+    var name2 = context.selectAll(".name")
+      .data(names)
+      .enter().append("g")
+        .attr("class", "name");
+
+    name2.append("path")
+        .attr("class", "line")
+        .attr("d", function(d) { return line(d.values); })
+        .style("stroke", function(d) { return z(d.id); });
+
+
+
+    context.append("g")
+           .attr("class", "brush")
+           .call(brush)
+           .call(brush.move, x.range());
+
+    svg.append("rect")
+       .attr("class", "zoom")
+       .attr("width", width)
+       .attr("height", height)
+       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+       .call(zoom);   
+
+    function brushed() {
+      if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+      var s = d3.event.selection || x2.range();
+      x.domain(s.map(x2.invert, x2));
+      focus.select(".line").attr("d", line);
+      focus.select(".axis--x").call(xAxis);
+      focus.select(".axis--y").call(yAxis);
+      svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+          .scale(width / (s[1] - s[0]))
+          .translate(-s[0], 0));
+    }  
+
+    function zoomed() {
+      if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
+      var t = d3.event.transform;
+      x.domain(t.rescaleX(x2).domain());
+      focus.select(".line").attr("d", line);
+      focus.select(".axis--x").call(xAxis);
+      focus.select(".axis--y").call(yAxis);
+      context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+    }
+
+
+
   });
 
   function type(d, _, columns) {
@@ -176,4 +284,6 @@ function timeSeries(csvTime) {
     for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
     return d;
   }
+  
+
 }

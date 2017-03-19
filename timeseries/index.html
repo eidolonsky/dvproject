@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.axis--x path {
-  display: none;
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-</style>
-<svg width="960" height="600"></svg>
-<script src="//d3js.org/d3.v4.min.js"></script>
-<script src="/assets/js/script.js"></script>
-<script>
-  timeSeries("/assets/data/o.film.csv");
-</script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>O.Timeseries</title>
+  <link rel="stylesheet" href="/assets/css/screen.css" />
+</head>
+<body>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+  <script>
+    timeSeries("/assets/data/o.film.csv");
+  </script>
+</body>

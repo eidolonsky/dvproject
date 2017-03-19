@@ -46,3 +46,21 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+/* timeseries */
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+  clip-path: url(#clip);
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
