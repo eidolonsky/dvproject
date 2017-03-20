@@ -100,16 +100,16 @@ function geoGlobe(pointColor, csvGeo) {
 
 function timeSeries(csvTime) {
   //svg
-  var w = 960, h = 500,
+  var w = 1200, h = 500,
       svg = d3.selectAll("body")
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 20, right: 20, bottom: 100, left: 40},
+      margin = {top: 20, right: 80, bottom: 100, left: 40},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
-  var margin2 = {top: 420, tight: 20, bottom: 20, left: 40},
+  var margin2 = {top: 420, right: 80, bottom: 20, left: 40},
       height2 = h - margin2.top - margin2.bottom;
 
   //parse time
@@ -118,11 +118,16 @@ function timeSeries(csvTime) {
   //scale
   var x = d3.scaleTime().range([0, width]),
       y = d3.scaleLinear().range([height, 0]),
-      z = d3.scaleOrdinal(d3.schemeCategory10);
+      z = d3.scaleOrdinal(d3.schemeCategory20);
 
   //brush scale
   var x2 = d3.scaleTime().range([0, width]),
-      y2 = d3.scaleTime().range([height2, 0]);  
+      y2 = d3.scaleLinear().range([height2, 0]);  
+ 
+  //axes
+  var xAxis = d3.axisBottom(x),
+      xAxis2 = d3.axisBottom(x2),
+      yAxis = d3.axisLeft(y);
 
   //line
   var line = d3.line()
@@ -134,8 +139,6 @@ function timeSeries(csvTime) {
       .curve(d3.curveBasis)
       .x(function(d) { return x2(d.date); })
       .y(function(d) { return y2(d.sum); });
-
-
 
   svg.append("defs")
      .append("clipPath")
@@ -173,23 +176,12 @@ function timeSeries(csvTime) {
     y2.domain(y.domain());
     z.domain(names.map(function(c) { return c.id; }));
 
-    //axes
-    var xAxis = d3.axisBottom(x),
-        xAxis2 = d3.axisBottom(x2),
-        yAxis = d3.axisLeft(y);
+
  
     //brush
     var brush = d3.brushX()
                   .extent([[0,0], [width, height2]])
                   .on("brush end", brushed);
-
-    //zoom
-    var zoom = d3.zoom()
-                 .scaleExtent([1, Infinity])
-                 .translateExtent([[0, 0], [width, height]])
-                 .extent([[0, 0], [width, height]])
-                 .on("zoom", zoomed);    
-
 
     focus.append("g")
         .attr("class", "axis axis--x")
@@ -229,52 +221,32 @@ function timeSeries(csvTime) {
            .attr("transform", "translate(0," + height2 + ")")
            .call(xAxis2);
 
-    var name2 = context.selectAll(".name")
+    var name2 = context.selectAll(".name2")
       .data(names)
       .enter().append("g")
-        .attr("class", "name");
+        .attr("class", "name2");
 
     name2.append("path")
         .attr("class", "line")
-        .attr("d", function(d) { return line(d.values); })
+        .attr("d", function(d) { return line2(d.values); })
         .style("stroke", function(d) { return z(d.id); });
-
-
 
     context.append("g")
            .attr("class", "brush")
            .call(brush)
-           .call(brush.move, x.range());
+           .call(brush.move, x.range())        
+           .attr("y", -6)
+           .attr("height", height2);
 
-    svg.append("rect")
-       .attr("class", "zoom")
-       .attr("width", width)
-       .attr("height", height)
-       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-       .call(zoom);   
+  
 
     function brushed() {
-      if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
       var s = d3.event.selection || x2.range();
       x.domain(s.map(x2.invert, x2));
-      focus.select(".line").attr("d", line);
+      focus.selectAll("path.line").attr("d", function(d) {return line(d.values)});
       focus.select(".axis--x").call(xAxis);
       focus.select(".axis--y").call(yAxis);
-      svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
-          .scale(width / (s[1] - s[0]))
-          .translate(-s[0], 0));
     }  
-
-    function zoomed() {
-      if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
-      var t = d3.event.transform;
-      x.domain(t.rescaleX(x2).domain());
-      focus.select(".line").attr("d", line);
-      focus.select(".axis--x").call(xAxis);
-      focus.select(".axis--y").call(yAxis);
-      context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
-    }
-
 
 
   });
