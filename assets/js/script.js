@@ -191,7 +191,8 @@ function timeSerie(csvTime) {
             date: d.date, 
             sum: +d[id] 
           };
-        })
+        }),
+      visible: (id ? true : false) 
       };
     });
 
@@ -232,6 +233,9 @@ function timeSerie(csvTime) {
 
     name.append("path")
         .attr("class", "line")
+        .attr("id", function(d) {
+        return "line-" + d.id.replace(" ", "");
+      })
         .attr("d", function(d) { return line(d.values); })
         .style("stroke", function(d) { return z(d.id); });
 
@@ -262,8 +266,8 @@ function timeSerie(csvTime) {
 
     //legend button
     name.append("rect")
-        .attr("width", 10)
-        .attr("height", 10)
+        .attr("width", 14)
+        .attr("height", 14)
         .attr("x", width + (margin.right / 3) - 15)
         .attr("y", function(d, i) { 
           return (legend) + i * (legend) - 11;
@@ -272,7 +276,7 @@ function timeSerie(csvTime) {
           return d.visible ? z(d.id) : "#F1F1F2"
         })
         .attr("class", "legend")
-        
+
         //mouse movement
         .on("click", function(d) {
           d.visible = !d.visible;
@@ -290,6 +294,8 @@ function timeSerie(csvTime) {
 
           name.select("rect")
               .transition()
+              //.attr("width", 10)
+              //.attr("height", 10)
               .attr("fill", function(d) {
                 return d.visible ? z(d.id) : "#F1F1F2";
               });    
@@ -297,24 +303,32 @@ function timeSerie(csvTime) {
         .on("mouseover", function(d) {
           d3.select(this)
             .transition()
+            .attr("width", 15)
+            .attr("height", 15)
             .attr("fill", function(d) {
               return z(d.id); 
-            });
+        });
 
-          d3.select("#line-" + d.id.replace(" ", "").replace("/", ""))
+          d3.select("#line-" + d.id.replace(" ", ""))
+            .style("z-index", 100)            
             .transition()
-            .style("stroke-width", 2.5);  
+            .style("stroke-width", 10)
+            .style("opacity", 1);  
         })
         .on("mouseout", function(d){
           d3.select(this)
             .transition()
+            .attr("width", 14)
+            .attr("height", 14)
             .attr("fill", function(d) {
             return d.visible ? z(d.id) : "#F1F1F2";
             });
 
-          d3.select("#line-" + d.id.replace(" ", "").replace("/", ""))
+          d3.select("#line-" + d.id.replace(" ", ""))
+            .style("z-index", 1)
             .transition()
-            .style("stroke-width", 1.5);
+            .style("opacity", 0.75)
+            .style("stroke-width", 7.5);
         })  
 
       //legend name  
@@ -327,13 +341,32 @@ function timeSerie(csvTime) {
           return d.id
       });
 
+      name.select("#rect-ViolaDavis")
+        .append("rect")
+        .attr("width", 14)
+        .attr("height", 14)
+        .attr("x", width + (margin.right / 3) - 15)
+        .attr("y", function(d, i) { 
+          return (legend) + i * (legend) - 11;
+        })
+        .attr("fill", "black");  
+
     //brushed function    
     function brushed() {
       var s = d3.event.selection || x2.range();
       x.domain(s.map(x2.invert, x2));
-      focus.selectAll("path.line").attr("d", function(d) {return line(d.values)});
-      focus.select(".axis--x").call(xAxis);
-      focus.select(".axis--y").call(yAxis);
+      focus.selectAll("path.line")
+           .attr("d", function(d) { 
+            return line(d.values)
+          });
+      maxY = findMaxY(names);
+      y.domain([0, maxY]);     
+      focus.select(".axis--x")
+           .transition()
+           .call(xAxis);
+      focus.select(".axis--y")
+           .transition()
+           .call(yAxis);
     }  
 
   });
