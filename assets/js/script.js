@@ -1,3 +1,9 @@
+//
+//
+//---------------------------------   GeoGlobe Start   ---------------------------------
+//
+//
+
 function geoGlobe(pointColor, csvGeo) {
   //Inspired by https://habrahabr.ru/post/186532/
   var width = 500;
@@ -98,18 +104,30 @@ function geoGlobe(pointColor, csvGeo) {
   })
 }
 
-function timeSeries(csvTime) {
+//
+//
+//---------------------------------   GeoGlobe End   ---------------------------------
+//
+//
+
+//
+//
+//---------------------------------   TimeSeries Start   ---------------------------------
+//
+//
+
+function timeSerie(csvTime) {
   //svg
   var w = 1200, h = 500,
       svg = d3.selectAll("body")
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 20, right: 80, bottom: 100, left: 40},
+      margin = {top: 20, right: 250, bottom: 100, left: 200},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
-  var margin2 = {top: 420, right: 80, bottom: 20, left: 40},
+  var margin2 = {top: 420, right: 250, bottom: 20, left: 200},
       height2 = h - margin2.top - margin2.bottom;
 
   //parse time
@@ -154,14 +172,25 @@ function timeSeries(csvTime) {
                   .attr("class", "context")
                   .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
   //get csv data
-  d3.csv(csvTime, type, function(error, data) {
+  d3.csv(csvTime, function(error, data) {
     if (error) throw error;
 
-    var names = data.columns.slice(1).map(function(id) {
+    z.domain(d3.keys(data[0]).filter(function(key) {
+      return key !== "date"; 
+    }));
+
+    data.forEach(function(d) {
+      d.date = parseTime(d.date);
+    });
+
+    var names = z.domain().map(function(id) {
       return {
         id: id,
         values: data.map(function(d) {
-          return {date: d.date, sum: d[id]};
+          return { 
+            date: d.date, 
+            sum: +d[id] 
+          };
         })
       };
     });
@@ -176,20 +205,18 @@ function timeSeries(csvTime) {
     y2.domain(y.domain());
     z.domain(names.map(function(c) { return c.id; }));
 
-
- 
     //brush
     var brush = d3.brushX()
                   .extent([[0,0], [width, height2]])
                   .on("brush end", brushed);
 
     focus.append("g")
-        .attr("class", "axis axis--x")
+        .attr("class", "axisx")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
     focus.append("g")
-        .attr("class", "axis axis--y")
+        .attr("class", "axisy")
         .call(yAxis)
       .append("text")
         .attr("transform", "rotate(-90)")
@@ -208,16 +235,8 @@ function timeSeries(csvTime) {
         .attr("d", function(d) { return line(d.values); })
         .style("stroke", function(d) { return z(d.id); });
 
-    name.append("text")
-        .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-        .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.sum) + ")"; })
-        .attr("x", 3)
-        .attr("dy", "0.35em")
-        .style("font", "10px sans-serif")
-        .text(function(d) { return d.id; });
-
     context.append("g")
-           .attr("class", "axis axis--x")
+           .attr("class", "axisx")
            .attr("transform", "translate(0," + height2 + ")")
            .call(xAxis2);
 
@@ -238,8 +257,77 @@ function timeSeries(csvTime) {
            .attr("y", -6)
            .attr("height", height2);
 
-  
+    //legend
+    var legend = 450 / names.length;
 
+    //legend button
+    name.append("rect")
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", width + (margin.right / 3) - 15)
+        .attr("y", function(d, i) { 
+          return (legend) + i * (legend) - 11;
+        })
+        .attr("fill", function(d) {
+          return d.visible ? z(d.id) : "#F1F1F2"
+        })
+        .attr("class", "legend")
+        
+        //mouse movement
+        .on("click", function(d) {
+          d.visible = !d.visible;
+          maxY = findMaxY(names);
+          y.domain([0,maxY]);
+          svg.select(".axisy")
+             .transition()
+             .call(yAxis);
+
+          name.select("path")
+              .transition()
+              .attr("d", function(d) {
+                return d.visible ? line(d.values) : null;
+              })
+
+          name.select("rect")
+              .transition()
+              .attr("fill", function(d) {
+                return d.visible ? z(d.id) : "#F1F1F2";
+              });    
+        })
+        .on("mouseover", function(d) {
+          d3.select(this)
+            .transition()
+            .attr("fill", function(d) {
+              return z(d.id); 
+            });
+
+          d3.select("#line-" + d.id.replace(" ", "").replace("/", ""))
+            .transition()
+            .style("stroke-width", 2.5);  
+        })
+        .on("mouseout", function(d){
+          d3.select(this)
+            .transition()
+            .attr("fill", function(d) {
+            return d.visible ? z(d.id) : "#F1F1F2";
+            });
+
+          d3.select("#line-" + d.id.replace(" ", "").replace("/", ""))
+            .transition()
+            .style("stroke-width", 1.5);
+        })  
+
+      //legend name  
+      name.append("text")
+        .attr("x", width + (margin.right / 3))
+        .attr("y", function (d, i) {
+          return (legend) + i * (legend);
+        })    
+        .text(function(d) {
+          return d.id
+      });
+
+    //brushed function    
     function brushed() {
       var s = d3.event.selection || x2.range();
       x.domain(s.map(x2.invert, x2));
@@ -248,14 +336,21 @@ function timeSeries(csvTime) {
       focus.select(".axis--y").call(yAxis);
     }  
 
-
   });
 
-  function type(d, _, columns) {
-    d.date = parseTime(d.date);
-    for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-    return d;
+  function findMaxY(data){
+    var maxYValues = data.map(function(d) { 
+      if (d.visible){
+        return d3.max(d.values, function(value) {
+          return value.sum; })
+      }
+    });
+    return d3.max(maxYValues);
   }
-  
-
 }
+
+//
+//
+//---------------------------------   TimeSeries End   ---------------------------------
+//
+//
