@@ -211,12 +211,12 @@ function timeSerie(csvTime) {
                   .on("brush end", brushed);
 
     focus.append("g")
-        .attr("class", "axisx")
+        .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
     focus.append("g")
-        .attr("class", "axisy")
+        .attr("class", "axis axis--y")
         .call(yAxis)
       .append("text")
         .attr("transform", "rotate(-90)")
@@ -236,7 +236,7 @@ function timeSerie(csvTime) {
         .style("stroke", function(d) { return z(d.id); });
 
     context.append("g")
-           .attr("class", "axisx")
+           .attr("class", "axis axis--x")
            .attr("transform", "translate(0," + height2 + ")")
            .call(xAxis2);
 
