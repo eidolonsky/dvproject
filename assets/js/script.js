@@ -118,16 +118,16 @@ function geoGlobe(pointColor, csvGeo) {
 
 function timeSerie(csvTime) {
   //svg
-  var w = 1200, h = 500,
+  var w = 1200, h = 600,
       svg = d3.selectAll("body")
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 20, right: 250, bottom: 100, left: 200},
+      margin = {top: 100, right: 250, bottom: 100, left: 200},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
-  var margin2 = {top: 420, right: 250, bottom: 20, left: 200},
+  var margin2 = {top: 525, right: 250, bottom: 20, left: 200},
       height2 = h - margin2.top - margin2.bottom;
 
   //parse time
@@ -192,7 +192,7 @@ function timeSerie(csvTime) {
             sum: +d[id] 
           };
         }),
-      visible: (id ? true : false) 
+      visible: (id===null ? true : false) 
       };
     });
 
@@ -354,19 +354,31 @@ function timeSerie(csvTime) {
     //brushed function    
     function brushed() {
       var s = d3.event.selection || x2.range();
-      x.domain(s.map(x2.invert, x2));
-      focus.selectAll("path.line")
-           .attr("d", function(d) { 
-            return line(d.values)
-          });
+      if (s === null) {
+        x.domain(x2.domain);
+      }
+      else {
+        x.domain(s.map(x2.invert, x2));
+      }  
+      maxY = findMaxY(names);
+
+
       maxY = findMaxY(names);
       y.domain([0, maxY]);     
+
       focus.select(".axis--x")
            .transition()
            .call(xAxis);
+
+
+      focus.selectAll("path.line")
+           .transition()
+           .attr("d", function(d) { 
+            return d.visible ? line(d.values) : null;
+          });   
       focus.select(".axis--y")
            .transition()
-           .call(yAxis);
+           .call(yAxis);            
     }  
 
   });
