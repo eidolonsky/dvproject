@@ -192,7 +192,7 @@ function timeSerie(csvTime) {
             sum: +d[id] 
           };
         }),
-      visible: (id===null ? true : false) 
+      visible: (id ? true : false) 
       };
     });
 
@@ -282,7 +282,7 @@ function timeSerie(csvTime) {
           d.visible = !d.visible;
           maxY = findMaxY(names);
           y.domain([0,maxY]);
-          svg.select(".axisy")
+          svg.select(".axis--y")
              .transition()
              .call(yAxis);
 
@@ -369,7 +369,6 @@ function timeSerie(csvTime) {
       focus.select(".axis--x")
            .transition()
            .call(xAxis);
-
 
       focus.selectAll("path.line")
            .transition()
