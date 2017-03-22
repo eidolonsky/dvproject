@@ -123,7 +123,7 @@ function timeSerie(csvTime) {
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 100, right: 250, bottom: 100, left: 200},
+      margin = {top: 10, right: 250, bottom: 100, left: 200},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
@@ -136,7 +136,7 @@ function timeSerie(csvTime) {
   //scale
   var x = d3.scaleTime().range([0, width]),
       y = d3.scaleLinear().range([height, 0]),
-      z = d3.scaleOrdinal(d3.schemeCategory20);
+      z = d3.scaleOrdinal(d3.schemeCategory20c);
 
   //brush scale
   var x2 = d3.scaleTime().range([0, width]),
@@ -268,7 +268,7 @@ function timeSerie(csvTime) {
     name.append("rect")
         .attr("width", 14)
         .attr("height", 14)
-        .attr("x", width + (margin.right / 3) - 15)
+        .attr("x", width + (margin.right / 4) - 10)
         .attr("y", function(d, i) { 
           return (legend) + i * (legend) - 11;
         })
@@ -303,8 +303,8 @@ function timeSerie(csvTime) {
         .on("mouseover", function(d) {
           d3.select(this)
             .transition()
-            .attr("width", 15)
-            .attr("height", 15)
+            .attr("width", 17)
+            .attr("height", 17)
             .attr("fill", function(d) {
               return z(d.id); 
         });
@@ -312,8 +312,8 @@ function timeSerie(csvTime) {
           d3.select("#line-" + d.id.replace(" ", ""))
             .style("z-index", 100)            
             .transition()
-            .style("stroke-width", 10)
-            .style("opacity", 1);  
+            .style("stroke-width", 12)
+            .style("opacity", 0.8);  
         })
         .on("mouseout", function(d){
           d3.select(this)
@@ -327,7 +327,7 @@ function timeSerie(csvTime) {
           d3.select("#line-" + d.id.replace(" ", ""))
             .style("z-index", 1)
             .transition()
-            .style("opacity", 0.75)
+            .style("opacity", 0.7)
             .style("stroke-width", 7.5);
         })  
 
@@ -341,15 +341,7 @@ function timeSerie(csvTime) {
           return d.id
       });
 
-      name.select("#rect-ViolaDavis")
-        .append("rect")
-        .attr("width", 14)
-        .attr("height", 14)
-        .attr("x", width + (margin.right / 3) - 15)
-        .attr("y", function(d, i) { 
-          return (legend) + i * (legend) - 11;
-        })
-        .attr("fill", "black");  
+
 
     //brushed function    
     function brushed() {
@@ -360,8 +352,6 @@ function timeSerie(csvTime) {
       else {
         x.domain(s.map(x2.invert, x2));
       }  
-      maxY = findMaxY(names);
-
 
       maxY = findMaxY(names);
       y.domain([0, maxY]);     
@@ -381,8 +371,8 @@ function timeSerie(csvTime) {
     }  
 
   });
-
-  function findMaxY(data){
+  
+  function findMaxY(data) {
     var maxYValues = data.map(function(d) { 
       if (d.visible){
         return d3.max(d.values, function(value) {
@@ -390,6 +380,17 @@ function timeSerie(csvTime) {
       }
     });
     return d3.max(maxYValues);
+  }
+
+  function allRect(data) {
+    for (i=0; i<=data.length; i++) {
+      visible: (data.values.id[i]) === true;
+    }
+  }
+  function noRect(data) {
+    for (i=0; i<=data.length; i++) {
+      visible: (data.values.id[i]) === false;
+    }
   }
 }
 
