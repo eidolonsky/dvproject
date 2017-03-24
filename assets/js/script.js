@@ -1,5 +1,26 @@
 //
 //
+//---------------------------------   NavBar Start   ---------------------------------
+//
+//
+
+function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+}
+
+//
+//
+//---------------------------------   NavBar End   ---------------------------------
+//
+//
+
+//
+//
 //---------------------------------   GeoGlobe Start   ---------------------------------
 //
 //
@@ -123,7 +144,7 @@ function timeSerie(csvTime) {
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 10, right: 250, bottom: 100, left: 200},
+      margin = {top: 30, right: 250, bottom: 100, left: 200},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
@@ -136,7 +157,7 @@ function timeSerie(csvTime) {
   //scale
   var x = d3.scaleTime().range([0, width]),
       y = d3.scaleLinear().range([height, 0]),
-      z = d3.scaleOrdinal(d3.schemeCategory20c);
+      z = d3.scaleOrdinal(d3.schemeCategory20);
 
   //brush scale
   var x2 = d3.scaleTime().range([0, width]),
@@ -307,7 +328,7 @@ function timeSerie(csvTime) {
             .attr("height", 17)
             .attr("fill", function(d) {
               return z(d.id); 
-        });
+            });
 
           d3.select("#line-" + d.id.replace(" ", ""))
             .style("z-index", 100)            
@@ -315,6 +336,7 @@ function timeSerie(csvTime) {
             .style("stroke-width", 12)
             .style("opacity", 0.8);  
         })
+        
         .on("mouseout", function(d){
           d3.select(this)
             .transition()
@@ -329,7 +351,7 @@ function timeSerie(csvTime) {
             .transition()
             .style("opacity", 0.7)
             .style("stroke-width", 7.5);
-        })  
+        });  
 
       //legend name  
       name.append("text")
@@ -340,8 +362,6 @@ function timeSerie(csvTime) {
         .text(function(d) {
           return d.id
       });
-
-
 
     //brushed function    
     function brushed() {
@@ -381,21 +401,87 @@ function timeSerie(csvTime) {
     });
     return d3.max(maxYValues);
   }
-
-  function allRect(data) {
-    for (i=0; i<=data.length; i++) {
-      visible: (data.values.id[i]) === true;
-    }
-  }
-  function noRect(data) {
-    for (i=0; i<=data.length; i++) {
-      visible: (data.values.id[i]) === false;
-    }
-  }
 }
 
 //
 //
 //---------------------------------   TimeSeries End   ---------------------------------
+//
+//
+
+//
+//
+//---------------------------------   TermBubble Start   ---------------------------------
+//
+//
+
+function termBubble(termJson) {
+
+  var w = 600, h = 600;
+
+  var svg = d3.select("body").append("svg")
+          .attr("width", w)
+          .attr("height", h);
+
+  var bubble = d3.layout.pack()
+        .size([w, h])
+        .value(function(d) {return d.size;})
+        .padding(20);
+
+  var tooltip = d3.select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+
+  d3.json("/assets/data/o.term.json", function(error, data) {
+
+    function processData(d) {
+      var terms = d.terms;
+
+      var newDataSet = [];
+
+      for(var value in terms) {
+        newDataSet.push({name: value, size: terms[value]});
+      }
+      return {children: newDataSet};
+    }
+
+    var nodes = bubble.nodes(processData(data))
+              .filter(function(d) { return !d.children; }); 
+   
+    var graph = svg.selectAll("circle")
+            .data(nodes);
+
+    var hueArray = ["green", "red", "blue"];
+
+    var hues = hueArray[Math.floor(Math.random() * hueArray.length)];
+    
+    graph.enter().append("circle")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+        .attr("r", function(d) { return d.r; })
+        .attr("class", "circle")
+        .style("fill", function(d) { 
+          return randomColor({hue: hues});
+        })
+        .on("mouseover", function(d) {    
+          tooltip.transition()    
+              .duration(200)    
+              .style("opacity", .9);    
+          tooltip.html(d.name + "</br>" + d.size)
+            .style("left", (d3.event.pageX - 34) + "px")
+            .style("top", (d3.event.pageY - 12) + "px");  
+            })          
+            .on("mouseout", function(d) {   
+              tooltip.transition()    
+                .duration(500)    
+                .style("opacity", 0); 
+        });
+  });
+
+}
+
+//
+//
+//---------------------------------   TermBubble End   ---------------------------------
 //
 //

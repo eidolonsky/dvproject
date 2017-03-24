@@ -41,5 +41,5 @@ if __name__ == '__main__':
                              tokenizer=tweet_tokenizer,
                              stopwords=stopword_list)
             tf.update(tokens)
-        for tag, count in tf.most_common(500):
+        for tag, count in tf.most_common(2000):
             print("{}: {}".format(tag, count))

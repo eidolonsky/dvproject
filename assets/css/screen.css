@@ -47,7 +47,34 @@ table {
   border-spacing: 0;
 }
 
-/* timeseries */
+/* nav start */
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000000;
+}
+ul.topnav li {
+  float: left;
+}
+ul.topnav li a {
+  display: inline-block;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+}
+.current {
+  background-color: #222222;
+}
+ul.topnav li a:hover {background-color: #555;}
+ul.topnav li.icon {display: none;}
+/* nav end */
+
+/* timeseries start */
 .axis--x path {
   display: none;
 }
@@ -64,4 +91,16 @@ table {
 .name .line {
   stroke-width: 7.5px;
   opacity: 0.7;
+}
+/* timeseries end */
+/* bubble start */
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 80px;
+  height: 60px;
+  padding: 8px;
+  font-size: 25px;
+  background: #ddd;
+  pointer-events: none;
 }
