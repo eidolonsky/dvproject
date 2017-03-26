@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1157 738" style="enable-background:new 0 0 1157 738;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:0.8;fill:url(#SVGID_1_);enable-background:new    ;}
+	.st1{opacity:0.8;fill:url(#SVGID_2_);enable-background:new    ;}
+	.st2{opacity:0.8;fill:url(#SVGID_3_);enable-background:new    ;}
+	.st3{fill:#FFFFFF;}
+	.st4{fill:none;}
+	.st5{font-family:'FuturaBT-ExtraBlackCondensed';}
+	.st6{font-size:69px;}
+</style>
+<g id="background">
+	<rect width="1157" height="743.4"/>
+</g>
+<g id="lights">
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="661.717" y1="497.4556" x2="1289.1178" y2="497.4556" gradientTransform="matrix(1.5751 4.100453e-02 0.2234 1.027 -1013.6731 -3.4568)">
+		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.7"/>
+		<stop  offset="0.1375" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#FFFFFF"/>
+	</linearGradient>
+	<polyline class="st0" points="129.6,488 137.3,447.5 1145.2,639.6 1143.7,647.7 	"/>
+	
+		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="830.2863" y1="463.2752" x2="1451.9041" y2="463.2752" gradientTransform="matrix(-0.4316 0.847 -0.8754 -0.4763 1878.25 -310.5016)">
+		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.7"/>
+		<stop  offset="0.1375" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#FFFFFF"/>
+	</linearGradient>
+	<polyline class="st1" points="1157,195.3 1157,258 785.4,665.6 779.3,660 	"/>
+	
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="615.8784" y1="357.0541" x2="1260.1134" y2="357.0541" gradientTransform="matrix(0.2513 0.8781 -0.9679 0.2268 1187.0637 -533.8901)">
+		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.7"/>
+		<stop  offset="0.1375" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#FFFFFF"/>
+	</linearGradient>
+	<polyline class="st2" points="1042.3,77.1 1083.5,77.4 1081.3,671.6 1073,671.5 	"/>
+</g>
+<g id="statue">
+	<path class="st3" d="M2,59.4c3.3,0.5,17.4,2,23.8,12.9c3.5,5.9,3.2,11.8,2.8,20.1c-0.7,14-6.6,16-6.6,28c0,4.7-0.1,13.9,6.1,20.6
+		c6.8,7.3,14.5,4.3,25.5,10c13.8,7.2,19.4,21.1,21.1,25.3c2.5,6.4,2.6,10.6-3.9,50.1c-5.2,31.9-6.9,39.3-14.4,44.3
+		c-6.5,4.4-13.8,4.5-16.1,10.6c-1.8,4.9,1.5,8.7,3.9,16.9c1.6,5.5,2.9,13.7,1.1,24.8c0.9,13.5-0.4,24.1-1.7,31.1
+		c-3.6,19.7-9.5,25.1-11.1,43.3c-1,11.1,0.9,12.6,1.7,29c0.2,4.6,0.6,17.3-2.8,47c-6.4,55.8-14.7,70.9-3.9,81.3
+		c3.7,3.5,12.5,9.3,23.3,10.6c9.1,1.1,12-2,18.8,0.5c9.4,3.4,8.3,10.9,17.7,15.3c5.1,2.4,3.6,0.9,15.4,1.3l16,89
+		c0,0-113.5,0-116.7,0C2,671.4,2,58.5,2,59.4z"/>
+	<path d="M0,62.4c2.9,0.5,15.3,2,21,13c3.1,5.9,2.8,11.9,2.4,20.2c-0.6,14.1-5.8,16-5.8,28c0,4.7-0.1,14,5.4,20.7
+		c6,7.4,12.8,4.3,22.4,10.1c12.2,7.2,17.1,21.2,18.5,25.4c2.2,6.3,2.3,10.6-3.4,50.3c-4.6,32-2.5,28-9.1,33
+		c-5.8,4.4-22.3,13.1-24.3,19.1c-1.6,4.9,8,11.6,10,19.8c1.4,5.4,2.6,13.7,1,24.9c0.8,13.5-0.3,24.2-1.5,31.2
+		c-3.1,19.7-8.3,25.2-9.7,43.4c-0.9,11.1,0.8,12.7,1.5,29.1c0.2,4.6,0.6,17.3-2.4,47.1c-5.6,55.9-16.1,76.7-6.6,87.2
+		c3.2,3.5,13.2,9.3,22.8,10.6c8,1,10.3-1.5,16.3,1c8.3,3.4,8.4,4.8,16.7,9.3c4.5,2.4,4.8,11.5,15.2,11.9l12.4,78.6
+		c0,0-99.9,0-102.7,0C0,676,0,61.6,0,62.4z"/>
+</g>
+<g id="title">
+	<rect x="244" y="264.1" class="st4" width="668.9" height="75.6"/>
+	<text transform="matrix(1 0 0 1 244.0209 323.2003)" class="st3 st5 st6">Visualizing Oscars 2017 </text>
+	<rect x="244.5" y="321.7" class="st4" width="579.2" height="75.6"/>
+	<text transform="matrix(1 0 0 1 244.5033 380.8003)" class="st3 st5 st6">Through Twitter </text>
+</g>
+</svg>
