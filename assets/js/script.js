@@ -426,7 +426,7 @@ function termBubble(termJson) {
   var bubble = d3.layout.pack()
         .size([w, h])
         .value(function(d) {return d.size;})
-        .padding(20);
+        .padding(7);
 
   var tooltip = d3.select("body")
                   .append("div")
