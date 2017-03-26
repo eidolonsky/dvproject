@@ -140,7 +140,7 @@ function geoGlobe(pointColor, csvGeo) {
 function timeSerie(csvTime) {
   //svg
   var w = 1200, h = 600,
-      svg = d3.selectAll("body")
+      svg = d3.selectAll(".linecharts")
               .append("svg")
               .attr("width", w)
               .attr("height", h),
@@ -336,7 +336,7 @@ function timeSerie(csvTime) {
             .style("stroke-width", 12)
             .style("opacity", 0.8);  
         })
-        
+
         .on("mouseout", function(d){
           d3.select(this)
             .transition()
@@ -419,7 +419,7 @@ function termBubble(termJson) {
 
   var w = 600, h = 600;
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select(".bubble").append("svg")
           .attr("width", w)
           .attr("height", h);
 
