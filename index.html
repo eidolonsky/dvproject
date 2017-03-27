@@ -28,32 +28,57 @@
       <div class="divider">
         <span>Project Introduction</span>
       </div>
+      <div class="cols">
+        <div class="col1">
+          <h2>Created</h2>
+          <p>Jan - Mar, 2017</p>
+          <h2>Brief</h2>
+          <p>D3.js based charts and graphs illustrating Twitter users' reaction during the 89th Academy Awards Ceremony.</p>
+          <h2>Tools</h2>
+          <p>Python, D3.js, HTML/CSS</p>
+          <h2>Data</h2>
+          <p>Streaming data crawled from Twitter.</p>
+        </div>
+        <div class="col2">
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p>
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p>
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p>
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p>
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p>
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p>
+          <p>This project is for my master's degree. I always heard about how great data visualization is. Last time, I tried to work on existed data and sketch all graphs and charts with Illustrator. With my familarity of coding and design, I decided to run this project from the every beginning of mining data to visualizing data with only codes.</p> 
+        </div>
+      </div>
     </div>
     <div class="panel" id="linechart">
       <div class="divider">
         <span>Films/Nominees </span>
       </div>    
+      <form id="first" class="section">
+        <div class="container">
+            <input type="radio" name="group1" id="radio-1" value="film" checked>
+            <label for="radio-1"><span class="radio">Films</span></label>
+        </div>
+        <div class="container">
+            <input type="radio" name="group1" id="radio-2" value="name" >
+            <label for="radio-2"><span class="radio">Nominees</span></label>
+        </div>
+      </form>      
       <div class="linecharts"></div>
     </div>
     <div class="panel" id="globechart">
       <div class="divider">
-        <span>Project Introduction</span>
+        <span> Globe of Geo Info</span>
       </div>    
       <div class="globe"></div>
     </div>
     <div class="panel" id="bubblechart">
       <div class="divider">
-        <span>Project Introduction</span>
+        <span>Top 500 Terms Frequency</span>
       </div>    
       <div class="bubble"></div>
     </div>
   </div>
-
-
-
-
-
-
 
   <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="//d3js.org/d3.v4.min.js"></script>
@@ -61,9 +86,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
   <script src="/assets/js/script.js"></script>
   <script type="text/javascript">
-    timeSerie("/assets/data/o.name.csv")
-    geoGlobe("red", "/assets/data/o.geo.csv")
-    termBubble("/assets/data/o.term..json")
+    radioButton();
+    geoGlobe("red", "/assets/data/o.geo.csv");
+    termBubble("/assets/data/o.term..json");
   </script>
 </body>
 </html>

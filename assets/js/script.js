@@ -133,6 +133,34 @@ function geoGlobe(pointColor, csvGeo) {
 
 //
 //
+//---------------------------------   RadioButton Start   ---------------------------------
+//
+//
+function radioButton() {
+  var inputElems = d3.selectAll("input");
+  timeSerie("/assets/data/o.film.csv");
+  function inputChange() {
+    d3.selectAll(".linecharts")
+      .selectAll("*")
+      .remove();
+    if (this.value === "film") {
+      timeSerie("/assets/data/o.film.csv");
+    }
+    else if (this.value === "name") {
+      timeSerie("/assets/data/o.name.csv");
+    }
+  }
+
+  inputElems.on("change", inputChange);
+}
+//
+//
+//---------------------------------   RadioButton End   ---------------------------------
+//
+//
+
+//
+//
 //---------------------------------   TimeSeries Start   ---------------------------------
 //
 //
@@ -144,11 +172,11 @@ function timeSerie(csvTime) {
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 30, right: 250, bottom: 100, left: 200},
+      margin = {top: 30, right: 250, bottom: 100, left: 100},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
-  var margin2 = {top: 525, right: 250, bottom: 20, left: 200},
+  var margin2 = {top: 525, right: 250, bottom: 20, left: 100},
       height2 = h - margin2.top - margin2.bottom;
 
   //parse time
