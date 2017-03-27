@@ -82,13 +82,12 @@ h2 {
 
 .divider span {
   font-size: 20px;
-  background-color: #FFFFFF;
   margin-left: 50px;
   padding: 0 10px;
 }
 
 .panel {
-  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -100,12 +99,38 @@ h2 {
 }
 
 /*intro*/
+
+#intro, .s1 {
+  background-color: #F9A03F;
+}
+
+p a:link {
+  color: #202C39;
+  text-decoration: none;
+}
+
+p a:visited {
+  color: #202C39;
+  text-decoration: none;
+}
+
+p a:hover {
+  color: #46494C;
+  text-decoration: none;
+}
+
+p a:active {
+  color: #46494C;
+  text-decoration: none;
+}
+
 .cols {
   display: table;
   padding-top: 50px;
   padding-bottom: 35px;
   padding-left: 200px;
   padding-right: 200px;
+  color: #264653;
 }
 .col1 {
   display: table-cell;
@@ -139,6 +164,9 @@ h2 {
   position: relative;
 }
 
+#linechart, .s2 {
+  background-color: #E9F7CA;
+}
 /* Base styles for spans */
 .container span::before,
 .container span::after {
@@ -157,7 +185,7 @@ h2 {
   left: -52px;
   width: 45px;
   height: 25px;
-  background-color: #A8AAC1;
+  background-color: #C6D8D3;
   border-radius: 50px;
 }
 .container span.radio::after {
@@ -170,9 +198,16 @@ h2 {
 }
 input[type="radio"]:checked + label span.radio::after {
   left: -27px;
-  background-color: #EBFF43;
+  background-color: #F0544F;
 }
 
+#globechart, .s3 {
+  background-color: #72A1E5;
+}
+
+#bubblechart, .s4 {
+  background-color: #F3C9BC;
+}
 
 /* nav start */
 ul.topnav {

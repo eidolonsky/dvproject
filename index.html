@@ -21,12 +21,14 @@
   </nav>
 
   <div class="sections">
+    
     <div class="panel" id="top">
       <img src="/assets/img/title.svg" >
     </div>
+
     <div class="panel" id="intro">
       <div class="divider">
-        <span>Project Introduction</span>
+        <span class="s1">Project Introduction</span>
       </div>
       <div class="cols">
         <div class="col1">
@@ -58,9 +60,10 @@
         </div>
       </div>
     </div>
+
     <div class="panel" id="linechart">
       <div class="divider">
-        <span>Films/Nominees </span>
+        <span class="s2">Films/Nominees </span>
       </div>    
       <form id="first" class="section">
         <div class="container">
@@ -74,15 +77,17 @@
       </form>      
       <div class="linecharts"></div>
     </div>
+
     <div class="panel" id="globechart">
       <div class="divider">
-        <span> Globe of Geo Info</span>
+        <span class="s3"> Globe of Geo Info</span>
       </div>    
       <div class="globe"></div>
     </div>
+
     <div class="panel" id="bubblechart">
       <div class="divider">
-        <span>Top 500 Term Frequency</span>
+        <span class="s4">Top 500 Term Frequency</span>
       </div>    
       <div class="bubble"></div>
     </div>
@@ -95,7 +100,7 @@
   <script src="/assets/js/script.js"></script>
   <script type="text/javascript">
     radioButton();
-    geoGlobe("red", "/assets/data/o.geo.csv");
+    geoGlobe("#E54B4B", "/assets/data/o.geo.csv");
     termBubble("/assets/data/o.term..json");
   </script>
 </body>
