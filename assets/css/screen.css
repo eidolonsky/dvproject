@@ -206,7 +206,7 @@ input[type="radio"]:checked + label span.radio::after {
 }
 
 #bubblechart, .s4 {
-  background-color: #F3C9BC;
+  background-color: #FAE4A2;
 }
 
 /* nav start */
