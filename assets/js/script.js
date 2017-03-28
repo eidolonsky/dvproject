@@ -362,7 +362,7 @@ function timeSerie(csvTime) {
             .style("z-index", 100)            
             .transition()
             .style("stroke-width", 12)
-            .style("opacity", 0.8);  
+            .style("opacity", 0.95);  
         })
 
         .on("mouseout", function(d){
@@ -377,7 +377,7 @@ function timeSerie(csvTime) {
           d3.select("#line-" + d.id.replace(" ", ""))
             .style("z-index", 1)
             .transition()
-            .style("opacity", 0.7)
+            .style("opacity", 0.8)
             .style("stroke-width", 7.5);
         });  
 
