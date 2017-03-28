@@ -283,7 +283,7 @@ function timeSerie(csvTime) {
     name.append("path")
         .attr("class", "line")
         .attr("id", function(d) {
-        return "line-" + d.id.replace(" ", "");
+        return "line-" + d.id.replace(/ /g, "");
       })
         .attr("d", function(d) { return line(d.values); })
         .style("stroke", function(d) { return z(d.id); });
@@ -358,7 +358,7 @@ function timeSerie(csvTime) {
               return z(d.id); 
             });
 
-          d3.select("#line-" + d.id.replace(" ", ""))
+          d3.select("#line-" + d.id.replace(/ /g, ""))
             .style("z-index", 100)            
             .transition()
             .style("stroke-width", 12)
@@ -374,7 +374,7 @@ function timeSerie(csvTime) {
             return d.visible ? z(d.id) : "#F1F1F2";
             });
 
-          d3.select("#line-" + d.id.replace(" ", ""))
+          d3.select("#line-" + d.id.replace(/ /g, ""))
             .style("z-index", 1)
             .transition()
             .style("opacity", 0.8)
