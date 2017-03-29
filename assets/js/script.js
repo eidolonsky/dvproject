@@ -27,8 +27,8 @@ function myFunction() {
 
 function geoGlobe(pointColor, csvGeo) {
   //Inspired by https://habrahabr.ru/post/186532/
-  var width = 500;
-  var height = 500;
+  var width = 600;
+  var height = 600;
   var scrollSpeed = 50;
   var current = 180;
   // scale
@@ -172,11 +172,11 @@ function timeSerie(csvTime) {
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 30, right: 250, bottom: 100, left: 100},
+      margin = {top: 20, right: 275, bottom: 120, left: 110},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
-  var margin2 = {top: 525, right: 250, bottom: 20, left: 100},
+  var margin2 = {top: 530, right: 275, bottom: 30, left: 110},
       height2 = h - margin2.top - margin2.bottom;
 
   //parse time
