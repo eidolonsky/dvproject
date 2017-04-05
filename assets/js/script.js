@@ -32,22 +32,22 @@ function geoGlobe(pointColor, csvGeo) {
   var scrollSpeed = 50;
   var current = 180;
   // scale
-  var longitudeScale = d3.scale.linear()
+  var longitudeScale = d3.scaleLinear()
     .domain([0, width])
     .range([-180, 180]);
   // projection
-  var planetProj = d3.geo.orthographic()
+  var planetProj = d3.geoOrthographic()
     .scale(200)
     .rotate([longitudeScale(current), 0])
     .translate([width / 2, height / 2])
     .clipAngle(90);
-  var pointProj = d3.geo.orthographic()
+  var pointProj = d3.geoOrthographic()
     .scale(200)
     .rotate([longitudeScale(current), 0])
     .translate([width / 2, height / 2])
     .clipAngle(90);
   // path
-  var path = d3.geo.path()
+  var path = d3.geoPath()
     .projection(planetProj);
   // svg
   var svg = d3.select(".globe").append("svg")
@@ -445,47 +445,40 @@ function timeSerie(csvTime) {
 
 function termBubble(termJson) {
 
-  var w = 600, h = 600;
+  var w = 550, h = 550;
 
   var svg = d3.select(".bubble").append("svg")
           .attr("width", w)
           .attr("height", h);
-
-  var bubble = d3.layout.pack()
-        .size([w, h])
-        .value(function(d) {return d.size;})
-        .padding(7);
 
   var tooltip = d3.select("body")
                   .append("div")
                   .attr("class", "tooltip")
                   .style("opacity", 0);
 
+  var hueArray = ["green", "red", "blue"];
+
+  var hues = hueArray[Math.floor(Math.random() * hueArray.length)];
+
   d3.json("/assets/data/o.term.json", function(error, data) {
+    if (error) throw error;
 
-    function processData(d) {
-      var terms = d.terms;
+    var bubble = d3.pack(data)
+        .size([w, h])
+        .padding(0.5);
 
-      var newDataSet = [];
+    var nodes = d3.hierarchy(data)
+                  .sum(function(d) { return d.amount; });
 
-      for(var value in terms) {
-        newDataSet.push({name: value, size: terms[value]});
-      }
-      return {children: newDataSet};
-    }
+    var node = svg.selectAll(".node")
+                  .data(bubble(nodes).descendants())
+                  .enter()
+                  .filter(function(d){ return  !d.children })
+                  .append("g")
+                  .attr("class", "node")
+                  .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-    var nodes = bubble.nodes(processData(data))
-              .filter(function(d) { return !d.children; }); 
-   
-    var graph = svg.selectAll("circle")
-            .data(nodes);
-
-    var hueArray = ["green", "red", "blue"];
-
-    var hues = hueArray[Math.floor(Math.random() * hueArray.length)];
-    
-    graph.enter().append("circle")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+    node.append("circle")
         .attr("r", function(d) { return d.r; })
         .attr("class", "circle")
         .style("fill", function(d) { 
@@ -495,7 +488,7 @@ function termBubble(termJson) {
           tooltip.transition()    
               .duration(200)    
               .style("opacity", .9);    
-          tooltip.html(d.name + "</br>" + d.size)
+          tooltip.html(d.data.name + "</br>" + d.data.amount)
             .style("left", (d3.event.pageX - 34) + "px")
             .style("top", (d3.event.pageY - 12) + "px");  
             })          
