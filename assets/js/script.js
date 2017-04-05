@@ -167,16 +167,16 @@ function radioButton() {
 
 function timeSerie(csvTime) {
   //svg
-  var w = 1200, h = 600,
+  var w = 1200, h = 550,
       svg = d3.selectAll(".linecharts")
               .append("svg")
               .attr("width", w)
               .attr("height", h),
-      margin = {top: 20, right: 275, bottom: 120, left: 110},
+      margin = {top: 20, right: 350, bottom: 100, left: 110},
       width = w - margin.left - margin.right,
       height = h - margin.top - margin.bottom;
 
-  var margin2 = {top: 530, right: 275, bottom: 30, left: 110},
+  var margin2 = {top: 475, right: 350, bottom: 30, left: 110},
       height2 = h - margin2.top - margin2.bottom;
 
   //parse time
@@ -476,7 +476,7 @@ function timeSerie(csvTime) {
 
 function termBubble(termJson) {
 
-  var w = 550, h = 550;
+  var w = 575, h = 575;
 
   var svg = d3.select(".bubble").append("svg")
           .attr("width", w)
@@ -520,8 +520,8 @@ function termBubble(termJson) {
               .duration(200)    
               .style("opacity", .9);    
           tooltip.html(d.data.name + "</br>" + d.data.amount)
-            .style("left", (d3.event.pageX - 34) + "px")
-            .style("top", (d3.event.pageY - 12) + "px");  
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) + "px");  
             })          
             .on("mouseout", function(d) {   
               tooltip.transition()    
@@ -537,9 +537,7 @@ function termBubble(termJson) {
 //---------------------------------   TermBubble End   ---------------------------------
 //
 //
-window.onload = function() { 
-  document.getElementById("navicon").onclick = myFunction;
-}
+
 window.onload = radioButton();
 window.onload = geoGlobe("#FFE900", "/assets/data/o.geo.csv");
 window.onload = termBubble("/assets/data/o.term.json");
