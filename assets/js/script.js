@@ -283,10 +283,41 @@ function timeSerie(csvTime) {
     name.append("path")
         .attr("class", "line")
         .attr("id", function(d) {
-        return "line-" + d.id.replace(/ /g, "");
+        return "line-" + d.id.replace(/ |:|\./gi, "");
       })
         .attr("d", function(d) { return line(d.values); })
-        .style("stroke", function(d) { return z(d.id); });
+        .style("stroke", function(d) { return z(d.id); })
+        .on("mouseover", function(d) {
+          d3.select(this)
+            .transition()
+            .attr("width", 17)
+            .attr("height", 17)
+            .attr("fill", function(d) {
+              return z(d.id); 
+            });
+
+          d3.select("#line-" + d.id.replace(/ |:|\./gi, ""))
+            .style("z-index", 100)            
+            .transition()
+            .style("stroke-width", 12)
+            .style("opacity", 0.95);  
+        })
+
+        .on("mouseout", function(d){
+          d3.select(this)
+            .transition()
+            .attr("width", 14)
+            .attr("height", 14)
+            .attr("fill", function(d) {
+            return d.visible ? z(d.id) : "#F1F1F2";
+            });
+
+          d3.select("#line-" + d.id.replace(/ |:|\./gi, ""))
+            .style("z-index", 1)
+            .transition()
+            .style("opacity", 0.8)
+            .style("stroke-width", 7.5);
+        });
 
     context.append("g")
            .attr("class", "axis axis--x")
@@ -358,7 +389,7 @@ function timeSerie(csvTime) {
               return z(d.id); 
             });
 
-          d3.select("#line-" + d.id.replace(/ /g, ""))
+          d3.select("#line-" + d.id.replace(/ |:|\./gi, ""))
             .style("z-index", 100)            
             .transition()
             .style("stroke-width", 12)
@@ -374,7 +405,7 @@ function timeSerie(csvTime) {
             return d.visible ? z(d.id) : "#F1F1F2";
             });
 
-          d3.select("#line-" + d.id.replace(/ /g, ""))
+          d3.select("#line-" + d.id.replace(/ |:|\./gi, ""))
             .style("z-index", 1)
             .transition()
             .style("opacity", 0.8)
@@ -506,3 +537,9 @@ function termBubble(termJson) {
 //---------------------------------   TermBubble End   ---------------------------------
 //
 //
+window.onload = function() { 
+  document.getElementById("navicon").onclick = myFunction;
+}
+window.onload = radioButton();
+window.onload = geoGlobe("#FFE900", "/assets/data/o.geo.csv");
+window.onload = termBubble("/assets/data/o.term.json");
