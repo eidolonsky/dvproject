@@ -113,7 +113,7 @@ h2 {
 /*intro*/
 
 #intro {
-  height: 120%;
+  height: 100%;
 }
 
 #intro, .s1 {
@@ -230,33 +230,6 @@ input[type="radio"]:checked + label span.radio::after {
 #bubblechart, .s4 {
   background-color: #FAE4A2;
 }
-
-/* nav start */
-ul.topnav {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #000000;
-}
-ul.topnav li {
-  float: left;
-}
-ul.topnav li a {
-  display: inline-block;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  transition: 0.3s;
-  font-size: 17px;
-}
-.current {
-  background-color: #222222;
-}
-ul.topnav li a:hover {background-color: #555;}
-ul.topnav li.icon {display: none;}
-/* nav end */
 
 /* timeseries start */
 .axis--x path {
