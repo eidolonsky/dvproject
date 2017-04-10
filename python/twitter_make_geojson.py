@@ -10,7 +10,6 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-    # Read tweet collection and build geo data structure
     with open(args.tweets, 'r') as f:
         geo_data = {
             "type": "FeatureCollection",
@@ -20,21 +19,12 @@ if __name__ == '__main__':
             tweet = json.loads(line)
             try:
                 if tweet['coordinates']:
-                    geo_json_feature = {
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": tweet['coordinates']['coordinates']
-                        },
-                        "properties": {
-                            "text": tweet['text'],
-                            "created_at": tweet['created_at']
+                    geo_json_feature = {                      
+                        "coordinates": tweet['coordinates']['coordinates']
                         }
-                    }
                     geo_data['features'].append(geo_json_feature)
             except KeyError:
                 continue
      
-    # Save geo data
     with open(args.geojson, 'w') as fout:
         fout.write(json.dumps(geo_data, indent=4))
